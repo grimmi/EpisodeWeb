@@ -1,0 +1,133 @@
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css" media="screen,projection" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="./materialize/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        function loadfiles(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "http://localhost:60086/api/decode?EncodedFiles", false);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send();
+            var response = JSON.parse(xhttp.response);
+            console.log(response);
+
+            var tableList = document.getElementById("encodedlist");
+            console.log(tableList);
+
+            for(file of response["files"]) {
+                console.log(file);
+                var newRow = tableList.insertRow(tableList.rows.length);
+                var newCell = newRow.insertCell(0);
+                var checkbox = document.createElement("input");
+                checkbox.setAttribute("type", "checkbox");
+                checkbox.setAttribute("id", "cb-" + file["Index"]);
+                newCell.appendChild(checkbox);
+                var label = document.createElement("label");
+                label.setAttribute("for", "cb-" + file["Index"]);
+                newCell.appendChild(label);
+
+                var textCell = newRow.insertCell(1);
+                var textEl = document.createTextNode(file["Path"]);
+                textCell.appendChild(textEl);
+            };
+        }
+    </script>
+    <div class="container">
+        <h1>OTR Manager</h1>
+        <ul class="collapsible popout" data-collapsible="expandable">
+            <li>
+                <div class="collapsible-header active"><img src="./move.png" height="35px" width="35px"/><h5>Dekodieren</h5></div>
+                <div class="collapsible-body">
+                    <div class="input-field">
+                        <input placeholder="z:\downloads\otr" id="source_path" type="text" class="validate">
+                        <label for="source_path">Dateipfad angeben</label>
+                    </div>
+                    <a class="waves-effect waves-light btn" onclick="loadfiles()">Dateien laden</a>
+                    <table class="highlight responsive-table" id="encodedlist">
+                        <tr>
+                            <th>Dekodieren</th>
+                            <th>Dateiname</th>
+                        </tr>
+                    </table>
+                    <div class="row">
+                        <a class="waves-effect waves-light btn col s5">Markierte Dateien dekodieren</a>
+                        <div class="col s2"></div>
+                        <a class="waves-effect waves-light btn col s5">Alle Dateien dekodieren</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><img src="./edit.png" height="35px" width="35px"/><h5>Benennen &amp; Verschieben</h5></div>
+                <div class="collapsible-body">
+                    <div class="input-field">
+                        <input placeholder="z:\downloads\otr" id="source_path" type="text" class="validate">
+                        <label for="source_path">Dateipfad angeben</label>
+                    </div>
+                    <a class="waves-effect waves-light btn">Dateien laden</a>
+                    <table class="highlight responsive-table">
+                        <tr>
+                            <th>Verarbeiten</th>
+                            <th>Show</th>
+                            <th>Episode</th>
+                            <th>Dateiname</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="test21" />
+                                <label for="test21"></label>
+                            </td>
+                            <td>Doctor Who (2005)</td>
+                            <td>10x03 Extremis</td>
+                            <td>Doctor_Who_17.05.19-19_00-bbc.avi</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="test22" />
+                                <label for="test22"></label>
+                            </td>
+                            <td>Doctor Who (2005)</td>
+                            <td>10x03 Extremis</td>
+                            <td>Doctor_Who_17.05.19-19_00-bbc.avi</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="test23" />
+                                <label for="test23"></label>
+                            </td>
+                            <td>Doctor Who (2005)</td>
+                            <td>10x03 Extremis</td>
+                            <td>Doctor_Who_17.05.19-19_00-bbc.avi</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="test24" />
+                                <label for="test24"></label>
+                            </td>
+                            <td>Doctor Who (2005)</td>
+                            <td>10x03 Extremis</td>
+                            <td>Doctor_Who_17.05.19-19_00-bbc.avi</td>
+                        </tr>
+                    </table>
+                    <div class="row">
+                        <a class="waves-effect waves-light btn col s5">Markierte Dateien verarbeiten</a>
+                        <div class="col s2"></div>
+                        <a class="waves-effect waves-light btn col s5">Alle Dateien verarbeiten</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

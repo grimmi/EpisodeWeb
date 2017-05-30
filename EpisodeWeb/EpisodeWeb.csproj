@@ -1,16 +1,44 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Include="wwwroot\edit.png" />
+    <Content Include="wwwroot\index.html" />
+    <Content Include="wwwroot\materialize.css" />
+    <Content Include="wwwroot\materialize\css\materialize.css" />
+    <Content Include="wwwroot\materialize\css\materialize.min.css" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Bold.woff" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Bold.woff2" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Light.woff" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Medium.woff" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Medium.woff2" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Regular.woff" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Regular.woff2" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Thin.woff" />
+    <Content Include="wwwroot\materialize\fonts\Roboto-Thin.woff2" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Bold.woff" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Bold.woff2" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Light.woff" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Light.woff2" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Medium.woff" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Medium.woff2" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Regular.woff" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Regular.woff2" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Thin.woff" />
+    <Content Include="wwwroot\materialize\fonts\roboto\Roboto-Thin.woff2" />
+    <Content Include="wwwroot\materialize\js\materialize.js" />
+    <Content Include="wwwroot\materialize\js\materialize.min.js" />
+    <Content Include="wwwroot\move.png" />
+    <Content Include="wwwroot\static\index.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
