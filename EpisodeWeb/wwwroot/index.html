@@ -14,6 +14,51 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="./materialize/js/materialize.min.js"></script>
     <script type="text/javascript">
+        var loadedFiles;
+
+        function getAllCheckedIds() {
+            var checkboxes = [];
+            var allInputs = document.getElementsByTagName("input");
+            for (var i = 0; i < allInputs.length; i++) {
+                if (allInputs[i].id.startsWith("cb-") && allInputs[i].checked) {
+                    checkboxes.push(allInputs[i].id.replace("cb-", ""));
+                }
+            }
+            return checkboxes;
+        }
+
+        function markAll() {
+            var allInputs = document.getElementsByTagName("input");
+            for (var i = 0; i < allInputs.length; i++) {
+                if (allInputs[i].id.startsWith("cb-")) {
+                    allInputs[i].checked = true;
+                }
+            }
+        }
+
+        function sendDecode() {
+            var ids = getAllCheckedIds();
+            var checkedFiles = [];
+            for (var i = 0; i < loadedFiles.length; i++) {
+                var f = loadedFiles[i];
+                if (ids.indexOf(f["Index"].toString()) > -1) {
+                    checkedFiles.push(f["Path"]);
+                }
+            }
+
+            if (checkedFiles.length === 0) {
+                return;
+            }
+
+            var req = new XMLHttpRequest();
+            req.open("POST", "http://localhost:60086/api/decode/DecodeFiles", true);
+            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            req.onload = function (e) {
+                console.log("request done!");
+            }
+            req.send("files=" + checkedFiles);
+        }
+
         function addToTable(encodedfile) {
             var tableList = document.getElementById("encodedlist");
 
@@ -36,15 +81,21 @@
 
         function loadfiles(){
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "http://localhost:60086/api/decode?EncodedFiles", true);
+            xhttp.open("GET", "http://localhost:60086/api/decode/EncodedFiles", true);
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.onload = function(e) {
                 if(xhttp.readyState === 4){
                     if(xhttp.status === 200){
                         var response = JSON.parse(xhttp.responseText);
+                        loadedFiles = response["files"];
                         for (file of response["files"]) {
                             addToTable(file);
                         };
+                        if (response["files"].length > 0) {
+                            document.getElementById("decodeselected").classList.toggle("disabled");
+                            document.getElementById("selectall").classList.toggle("disabled");
+                            document.getElementById("decodeall").classList.toggle("disabled");
+                        }
                     }
                 }
             }
@@ -62,17 +113,17 @@
                         <label for="source_path">Dateipfad angeben</label>
                     </div>
                     <a class="waves-effect waves-light btn" onclick="loadfiles()">Dateien laden</a>
+                    <div class="row">
+                        <a id="decodeselected" class="waves-effect waves-light btn col s3 disabled" onclick="sendDecode()">Markierte Dateien dekodieren</a>
+                        <a id="selectall" class="waves-effect waves-light btn col s3 disabled" onclick="markAll()">Alle Dateien markieren</a>
+                        <a id="decodeall" class="waves-effect waves-light btn col s3 disabled">Alle Dateien dekodieren</a>
+                    </div>
                     <table class="highlight responsive-table" id="encodedlist">
                         <tr>
-                            <th>Dekodieren</th>
+                            <th onclick="markAll()">Dekodieren</th>
                             <th>Dateiname</th>
                         </tr>
                     </table>
-                    <div class="row">
-                        <a class="waves-effect waves-light btn col s5">Markierte Dateien dekodieren</a>
-                        <div class="col s2"></div>
-                        <a class="waves-effect waves-light btn col s5">Alle Dateien dekodieren</a>
-                    </div>
                 </div>
             </li>
             <li>
