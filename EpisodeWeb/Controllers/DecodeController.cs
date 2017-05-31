@@ -14,7 +14,7 @@ namespace EpisodeWeb.Controllers
         [HttpGet]
         public JObject EncodedFiles()
         {
-            var files = Directory.GetFiles(@"z:\downloads", "*.otrkey")
+            var files = Directory.GetFiles(@"z:\downloads\done", "*.otrkey")
                 .OrderBy(f => Path.GetFileName(f))
                 .Select((f, i) => new { Path = Path.GetFileName(f), Index = i });
 

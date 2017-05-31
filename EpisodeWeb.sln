@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpisodeWeb", "EpisodeWeb\EpisodeWeb.csproj", "{EC429816-1487-4195-AE33-5FB9477C2802}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LibOtrProcessor", "LibOtrProcessor\LibOtrProcessor.fsproj", "{EE17CC6D-34B5-4A66-B0A6-7FDC372C694C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EC429816-1487-4195-AE33-5FB9477C2802}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC429816-1487-4195-AE33-5FB9477C2802}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC429816-1487-4195-AE33-5FB9477C2802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE17CC6D-34B5-4A66-B0A6-7FDC372C694C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE17CC6D-34B5-4A66-B0A6-7FDC372C694C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE17CC6D-34B5-4A66-B0A6-7FDC372C694C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE17CC6D-34B5-4A66-B0A6-7FDC372C694C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
