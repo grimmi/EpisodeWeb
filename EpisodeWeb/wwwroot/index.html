@@ -14,33 +14,41 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="./materialize/js/materialize.min.js"></script>
     <script type="text/javascript">
+        function addToTable(encodedfile) {
+            var tableList = document.getElementById("encodedlist");
+
+            var newRow = tableList.insertRow(tableList.rows.length);
+            var cbCell = newRow.insertCell(0);
+
+            var cb = document.createElement("input");
+            cb.setAttribute("type", "checkbox");
+            cb.setAttribute("id", "cb-" + encodedfile["Index"]);
+            cbCell.appendChild(cb);
+
+            var label = document.createElement("label");
+            label.setAttribute("for", "cb-" + encodedfile["Index"]);
+            cbCell.appendChild(label);
+
+            var textCell = newRow.insertCell(1);
+            var pathElement = document.createTextNode(file["Path"]);
+            textCell.appendChild(pathElement);
+        }
+
         function loadfiles(){
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "http://localhost:60086/api/decode?EncodedFiles", false);
+            xhttp.open("GET", "http://localhost:60086/api/decode?EncodedFiles", true);
             xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send();
-            var response = JSON.parse(xhttp.response);
-            console.log(response);
-
-            var tableList = document.getElementById("encodedlist");
-            console.log(tableList);
-
-            for(file of response["files"]) {
-                console.log(file);
-                var newRow = tableList.insertRow(tableList.rows.length);
-                var newCell = newRow.insertCell(0);
-                var checkbox = document.createElement("input");
-                checkbox.setAttribute("type", "checkbox");
-                checkbox.setAttribute("id", "cb-" + file["Index"]);
-                newCell.appendChild(checkbox);
-                var label = document.createElement("label");
-                label.setAttribute("for", "cb-" + file["Index"]);
-                newCell.appendChild(label);
-
-                var textCell = newRow.insertCell(1);
-                var textEl = document.createTextNode(file["Path"]);
-                textCell.appendChild(textEl);
-            };
+            xhttp.onload = function(e) {
+                if(xhttp.readyState === 4){
+                    if(xhttp.status === 200){
+                        var response = JSON.parse(xhttp.responseText);
+                        for (file of response["files"]) {
+                            addToTable(file);
+                        };
+                    }
+                }
+            }
+            xhttp.send(null);
         }
     </script>
     <div class="container">
