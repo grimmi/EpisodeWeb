@@ -12,6 +12,8 @@ namespace EpisodeWeb.Controllers
     [Route("api/[controller]")]
     public class DecodeController : Controller
     {
+        private static DecodeJob currentJob;
+
         [HttpGet]
         [Route("EncodedFiles")]
         public JObject EncodedFiles()
@@ -30,13 +32,17 @@ namespace EpisodeWeb.Controllers
         [Route("DecodeFiles")]
         public JObject DecodeFiles(string files)
         {
-            var response = new JObject();
-            response.Add("success", true);
-
-            foreach(var f in files.Split(','))
+            if(currentJob == null || currentJob.Done)
             {
-                Debug.WriteLine(f);
+                currentJob = new DecodeJob();
+                currentJob.Run();
             }
+
+            var response = new JObject();
+            response["id"] = currentJob.Id.ToString();
+            response["progress"] = currentJob.Progress;
+            response["currentstep"] = currentJob.CurrentStep;
+            response["done"] = currentJob.Done;
 
             return response;
         }

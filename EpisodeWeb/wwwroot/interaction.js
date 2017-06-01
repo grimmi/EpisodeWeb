@@ -20,6 +20,23 @@ function markAll() {
     }
 }
 
+function getStatus() {
+    var req = new XMLHttpRequest();
+    req.open("GET", "./api/DecodeJob", true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.onload = function (e) {
+        var status = JSON.parse(req.responseText);
+        console.log(status);
+        if (!status["done"]) {
+            setTimeout(getStatus, 5000);
+        }
+        else {
+            console.log("-------- ALL DONE ----------");
+        }
+    }
+    req.send(null);
+}
+
 function sendDecode() {
     var ids = getAllCheckedIds();
     var checkedFiles = [];
@@ -35,10 +52,10 @@ function sendDecode() {
     }
 
     var req = new XMLHttpRequest();
-    req.open("POST", "./api/decode/DecodeFiles", true);
+    req.open("POST", "./api/DecodeJob", true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.onload = function (e) {
-        console.log("request done!");
+        console.log(req.responseText);
     }
     req.send("files=" + checkedFiles);
 }

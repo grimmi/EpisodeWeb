@@ -41,12 +41,6 @@ namespace EpisodeWeb
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //        Path.Combine(Directory.GetCurrentDirectory(), "static")),
-            //    RequestPath = new PathString("/html")
-            //});
             app.UseDefaultFiles();
             app.UseMvc();
         }
