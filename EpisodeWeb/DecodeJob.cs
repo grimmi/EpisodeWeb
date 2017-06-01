@@ -8,19 +8,15 @@ namespace EpisodeWeb
 {
     public class DecodeJob
     {
+        [JsonProperty("id")]
         public Guid Id { get; } = Guid.NewGuid();
         [JsonIgnore]
         public double ProgressValue { get; private set; } = 0;
-        public decimal Progress
-        {
-            get
-            {
-                var progValue = ProgressValue.ToString("N2");
-                //progValue = progValue.Replace(",", ".");
-                return decimal.Parse(progValue);
-            }
-        }
+        [JsonProperty("progress")]
+        public decimal Progress => decimal.Parse(ProgressValue.ToString("N2"));
+        [JsonProperty("currentstep")]
         public string CurrentStep { get; private set; } = "n/a";
+        [JsonProperty("done")]
         public bool Done { get; set; } = false;
         [JsonIgnore]
         public List<string> Files { get; internal set; }
@@ -31,7 +27,7 @@ namespace EpisodeWeb
             {
                 ProgressValue = (100.0 / Files.Count) * (i+1);
                 CurrentStep = Files[i];
-                await Task.Delay(1000);
+                await Task.Delay(100);
             }
             Done = true;
         }
