@@ -7,6 +7,7 @@
   <ItemGroup>
     <Content Include="wwwroot\edit.png" />
     <Content Include="wwwroot\index.html" />
+    <Content Include="wwwroot\interaction.js" />
     <Content Include="wwwroot\materialize.css" />
     <Content Include="wwwroot\materialize\css\materialize.css" />
     <Content Include="wwwroot\materialize\css\materialize.min.css" />
