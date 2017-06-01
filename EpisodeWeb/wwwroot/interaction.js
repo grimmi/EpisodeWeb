@@ -28,10 +28,11 @@ function getStatus() {
         var status = JSON.parse(req.responseText);
         console.log(status);
         if (!status["done"]) {
-            setTimeout(getStatus, 5000);
+            setTimeout(getStatus, 2000);
+            Materialize.toast(status["progress"] + "% done", 1800);
         }
         else {
-            console.log("-------- ALL DONE ----------");
+            Materialize.toast("all done!", 4000);
         }
     }
     req.send(null);
@@ -58,6 +59,8 @@ function sendDecode() {
         console.log(req.responseText);
     }
     req.send("files=" + checkedFiles);
+
+    getStatus();
 }
 
 function addToTable(encodedfile) {
