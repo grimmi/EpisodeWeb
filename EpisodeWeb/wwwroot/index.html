@@ -24,8 +24,8 @@
                 <div class="collapsible-header active valign-wrapper"><img src="./move.png" height="35px" width="35px" /><span class="accent-1">Dekodieren</span></div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <a id="decodeselected" class="waves-effect waves-light btn col s3 disabled" onclick="sendDecode()">Markierte Dateien dekodieren</a>
-                        <a id="selectall" class="waves-effect waves-light btn col s3 disabled" onclick="markAll()">Alle Dateien markieren</a>
+                        <a id="decodeselected" class="waves-effect waves-light btn col s5 disabled" onclick="sendDecode()">Markierte Dateien dekodieren</a>
+                        <a id="selectall" class="waves-effect waves-light btn col s5 offset-s2 disabled" onclick="markAll()">Alle Dateien markieren</a>
                     </div>
                     <table class="highlight responsive-table" id="encodedlist">
                         <tr>
@@ -39,6 +39,10 @@
                 <div class="collapsible-header valign-wrapper"><img src="./edit.png" height="35px" width="35px" /><span class="accent-1">Benennen &amp; Verschieben</span></div>
                 <div class="collapsible-body">
                     <a class="waves-effect waves-light btn">Dateien laden</a>
+                    <div class="row">
+                        <a class="waves-effect waves-light btn col s5">Markierte Dateien verarbeiten</a>
+                        <a class="waves-effect waves-light btn col s5 offset-s2">Alle Dateien verarbeiten</a>
+                    </div>
                     <table class="highlight responsive-table">
                         <tr>
                             <th>Verarbeiten</th>
@@ -47,11 +51,6 @@
                             <th>Dateiname</th>
                         </tr>
                     </table>
-                    <div class="row">
-                        <a class="waves-effect waves-light btn col s5">Markierte Dateien verarbeiten</a>
-                        <div class="col s2"></div>
-                        <a class="waves-effect waves-light btn col s5">Alle Dateien verarbeiten</a>
-                    </div>
                 </div>
             </li>
         </ul>

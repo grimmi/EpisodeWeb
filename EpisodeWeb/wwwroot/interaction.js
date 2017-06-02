@@ -86,7 +86,7 @@ function addToTable(encodedfile) {
 
 function loadfiles() {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "./api/decode/EncodedFiles", true);
+    xhttp.open("GET", "./api/keyfiles", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.onload = function (e) {
         if (xhttp.readyState === 4) {
