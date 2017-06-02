@@ -26,10 +26,11 @@ function getStatus() {
     req.setRequestHeader("Content-Type", "application/json");
     req.onload = function (e) {
         var status = JSON.parse(req.responseText);
-        console.log(status);
         if (!status["done"]) {
             setTimeout(getStatus, 2000);
-            Materialize.toast(status["progress"] + "% done", 1800);
+            if (status["progress"] != undefined) {
+                Materialize.toast(status["progress"] + "% done", 1800);
+            }
         }
         else {
             Materialize.toast("all done!", 4000);
