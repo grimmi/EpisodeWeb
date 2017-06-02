@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EpisodeWeb
@@ -21,13 +22,13 @@ namespace EpisodeWeb
         [JsonIgnore]
         public List<string> Files { get; internal set; }
 
-        public async Task Run()
+        public void Run()
         {
             for (int i = 0; i < Files.Count; i++)
             {
                 ProgressValue = (100.0 / Files.Count) * (i+1);
                 CurrentStep = Files[i];
-                await Task.Delay(100);
+                Thread.Sleep(500);
             }
             Done = true;
         }

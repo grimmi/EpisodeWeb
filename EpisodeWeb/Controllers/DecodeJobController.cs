@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
@@ -8,14 +9,20 @@ namespace EpisodeWeb.Controllers
     [Route("api/[controller]")]
     public class DecodeJobController : Controller
     {
-        private static DecodeJob currentJob;
+        private DecodeJobService JobService { get; }
+        private DecodeJob CurrentJob => JobService.CurrentJob;
+
+        public DecodeJobController(DecodeJobService jobService)
+        {
+            JobService = jobService;
+        }
 
         [HttpGet]
         public JObject Get()
         {
-            if(currentJob != null)
+            if(CurrentJob != null)
             {
-                return JObject.Parse(JsonConvert.SerializeObject(currentJob));
+                return JObject.Parse(JsonConvert.SerializeObject(CurrentJob));
             }
 
             var response = new JObject();
@@ -27,13 +34,13 @@ namespace EpisodeWeb.Controllers
         [HttpPost]
         public JObject Post(string files)
         {
-            if (currentJob == null || currentJob.Done)
+            if (CurrentJob == null || CurrentJob.Done)
             {
-                var job = new DecodeJob();
-                job.Files = files.Split(',').ToList();
-                job.Run();
-                currentJob = job;
-                return JObject.Parse(JsonConvert.SerializeObject(job));
+                
+                BackgroundJob.Enqueue(() => JobService.RunJob(files.Split(',').Select(f => f.Trim()).ToList()));
+                var jobCreatedResponse = new JObject();
+                jobCreatedResponse.Add("message", "job created");
+                return jobCreatedResponse;
             }
 
             var response = new JObject();

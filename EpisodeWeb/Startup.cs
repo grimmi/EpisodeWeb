@@ -35,15 +35,17 @@ namespace EpisodeWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(config => config.UseMemoryStorage());
+            services.AddSingleton(new DecodeJobService(Configuration));
             // Add framework services.
             services.AddMvc();
-            services.AddHangfire(config => config.UseMemoryStorage());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             GlobalConfiguration.Configuration.UseStorage(new MemoryStorage());
+            GlobalConfiguration.Configuration.UseDefaultActivator();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseHangfireServer();
