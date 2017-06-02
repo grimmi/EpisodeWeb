@@ -23,16 +23,19 @@ let searchShow show = async {
             return JsonConvert.DeserializeObject<SearchResponse>(response) }
 
 let choose (options: (int*string) seq) =
-    match options with
-    |_ when Seq.length options = 1 -> 
-            printfn "automatically chose first option"
-            0
-    |_ ->   options
-            |> Seq.iter(fun (idx, desc) -> printfn "[%d]: %s" idx desc)
-            printf "Which option? "
-            let input = Console.ReadLine()    
-            printfn "your choice: %s" input
-            input |> int
+    match options |> Seq.tryFind(fun (idx, title) -> title.StartsWith("Doctor Who (2005)")) with
+    |Some (idx, title) -> idx
+    |_ -> 0
+    //match options with
+    //|_ when Seq.length options = 1 -> 
+    //        printfn "automatically chose first option"
+    //        0
+    //|_ ->   options
+    //        |> Seq.iter(fun (idx, desc) -> printfn "[%d]: %s" idx desc)
+    //        printf "Which option? "
+    //        let input = Console.ReadLine()    
+    //        printfn "your choice: %s" input
+    //        input |> int
 
 let rec findShow showName =
 
@@ -40,7 +43,6 @@ let rec findShow showName =
         try
             match tryGetShow current with
             |true, mappedShow -> 
-                            //printfn "Nehme Show aus Cache: %s" mappedShow.seriesName
                             return Some(mappedShow)
             |false, _ ->    let! shows = searchShow current
                             let chosenIdx = choose (shows.data |> Seq.mapi(fun idx show -> (idx, show.seriesName)))
@@ -48,14 +50,15 @@ let rec findShow showName =
                             cacheShow original chosenShow      
                             return Some(chosenShow)
         with
-            | :? WebException as ex ->  printfn "Konnte zu '%s' keine Show ermitteln" current
-                                        printfn "Unbekannte Show, bitte Namen eingeben:"
-                                        let newShowName = Console.ReadLine()
-                                        if newShowName <> "x" then
-                                            let! nextShow = findShowInDb original newShowName
-                                            return nextShow
-                                        else
-                                            return None
+            | :? WebException as ex ->  return None
+                                        //printfn "Konnte zu '%s' keine Show ermitteln" current
+                                        //printfn "Unbekannte Show, bitte Namen eingeben:"
+                                        //let newShowName = Console.ReadLine()
+                                        //if newShowName <> "x" then
+                                        //    let! nextShow = findShowInDb original newShowName
+                                        //    return nextShow
+                                        //else
+                                        //    return None
     }
     match showName with
     |None -> async { return  None }
@@ -77,6 +80,23 @@ let findEpisode file postprocess = async {
                     printfn "%s" info
                     postprocess file s ep
 }
+
+let getEpisode file = async{
+    fillShowCache
+    let parsedName = file |> parseShowName
+    let! show = findShow parsedName
+    match show with
+    |None -> 
+        printfn "Keine Show gefunden! ('%s')" file
+        return None
+    |Some s ->  loadEpisodes s
+                let! episode = matchEpisode s file
+                match episode with
+                | None -> return None
+                | Some ep -> return Some (show, episode, file)
+}
+
+let getEpisodeAsTask file = (getEpisode file) |> Async.StartAsTask
 
 let cp newdir file show ep =
     

@@ -13,9 +13,10 @@
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="./materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="./interaction.js"></script>
+    <script type="text/javascript" src="./decode.js"></script>
+    <script type="text/javascript" src="./process.js"></script>
     <script type="text/javascript">
-        window.onload = loadfiles;
+        window.onload = loadKeyFiles;
     </script>
     <div class="container">
         <h1>OTR Manager</h1>
@@ -38,12 +39,12 @@
             <li>
                 <div class="collapsible-header valign-wrapper"><img src="./edit.png" height="35" width="35" /><span class="accent-1">Benennen &amp; Verschieben</span></div>
                 <div class="collapsible-body">
-                    <a class="waves-effect waves-light btn">Dateien laden</a>
+                    <a class="waves-effect waves-light btn" onclick="loadDecodedFiles()">Dateien laden</a>
                     <div class="row">
                         <a class="waves-effect waves-light btn col s5">Markierte Dateien verarbeiten</a>
                         <a class="waves-effect waves-light btn col s5 offset-s2">Alle Dateien verarbeiten</a>
                     </div>
-                    <table class="highlight responsive-table">
+                    <table id="decodedTable" class="highlight responsive-table">
                         <tr>
                             <th>Verarbeiten</th>
                             <th>Show</th>

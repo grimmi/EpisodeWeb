@@ -84,7 +84,7 @@ function addToTable(encodedfile) {
     textCell.appendChild(pathElement);
 }
 
-function loadfiles() {
+function loadKeyFiles() {
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "./api/keyfiles", true);
     xhttp.setRequestHeader("Content-Type", "application/json");

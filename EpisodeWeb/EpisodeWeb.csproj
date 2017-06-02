@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\credentials.cred" />
+    <Content Include="wwwroot\decode.js" />
     <Content Include="wwwroot\edit.png" />
     <Content Include="wwwroot\index.html" />
     <Content Include="wwwroot\interaction.js" />
@@ -33,6 +35,8 @@
     <Content Include="wwwroot\materialize\js\materialize.js" />
     <Content Include="wwwroot\materialize\js\materialize.min.js" />
     <Content Include="wwwroot\move.png" />
+    <Content Include="wwwroot\otrcredentials.cred" />
+    <Content Include="wwwroot\process.js" />
     <Content Include="wwwroot\static\index.html" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibOtrProcessor\LibOtrProcessor.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FSharp.Core">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\4.4.1.0\FSharp.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
