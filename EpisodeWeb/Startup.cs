@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using Hangfire.Dashboard;
+using Hangfire.Annotations;
 
 namespace EpisodeWeb
 {
@@ -33,16 +37,28 @@ namespace EpisodeWeb
         {
             // Add framework services.
             services.AddMvc();
+            services.AddHangfire(config => config.UseMemoryStorage());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            GlobalConfiguration.Configuration.UseStorage(new MemoryStorage());
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            app.UseHangfireServer();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new AllowAllAuthorizationFilter() }
+            });
             app.UseStaticFiles();
             app.UseDefaultFiles();
             app.UseMvc();
+        }
+
+        private class AllowAllAuthorizationFilter : IDashboardAuthorizationFilter
+        {
+            public bool Authorize([NotNull] DashboardContext context) => true;
         }
     }
 }

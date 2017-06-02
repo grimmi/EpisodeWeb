@@ -28,14 +28,14 @@ function getStatus() {
         var status = JSON.parse(req.responseText);
         if (!status["done"]) {
             setTimeout(getStatus, 2000);
-            if (status["progress"] != undefined) {
+            if (status["progress"] !== undefined) {
                 Materialize.toast(status["progress"] + "% done", 1800);
             }
         }
         else {
             Materialize.toast("all done!", 4000);
         }
-    }
+    };
     req.send(null);
 }
 
@@ -58,7 +58,7 @@ function sendDecode() {
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.onload = function (e) {
         console.log(req.responseText);
-    }
+    };
     req.send("files=" + checkedFiles);
 
     getStatus();
@@ -95,7 +95,7 @@ function loadfiles() {
                 loadedFiles = response["files"];
                 for (file of response["files"]) {
                     addToTable(file);
-                };
+                }
                 if (response["files"].length > 0) {
                     document.getElementById("decodeselected").classList.toggle("disabled");
                     document.getElementById("selectall").classList.toggle("disabled");
@@ -103,6 +103,6 @@ function loadfiles() {
                 }
             }
         }
-    }
+    };
     xhttp.send(null);
 }
