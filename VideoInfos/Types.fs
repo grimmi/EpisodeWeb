@@ -44,7 +44,7 @@ type MovieInfo(title: string) =
 
     override this.VideoType = "movie"
     
-type ParseInfo(path: string, parsedshow: string option, dbshow: string option, parsedtitle: string option, dbtitle: string option, season: int option, number: int option, firstaired: DateTime option) =
+type ParseInfo(path: string, parsedshow: string option, dbshow: string option, parsedtitle: string option, dbtitle: string, season: Nullable<int>, number: Nullable<int>, firstaired: string) =
     member this.ToJson() =
         let json = JObject()
         json.Add("path", JToken.FromObject(path))

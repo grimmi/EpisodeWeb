@@ -1,6 +1,7 @@
 ﻿module InfoCollector
 
 open Types
+open System
 
 let private GetEpisodeInfoAsync file = async {
         let showParsed = ShowParser.parseShowName file
@@ -12,13 +13,16 @@ let private GetEpisodeInfoAsync file = async {
         let episodeParsed = ShowParser.parseEpisodeName file
         let makerEpisodeParsed = makerShow episodeParsed
         let! makerEpisode = async{
+                           let zero = Nullable<int>(0)
                            match show with
-                           |None -> return makerEpisodeParsed None None None None
+                           |None -> return makerEpisodeParsed "" zero zero ""
                            |Some s -> 
                                 let! episode = Renamer.getEpisode show file
                                 match episode with
-                                |None -> return makerEpisodeParsed None None None None
-                                |Some e -> return makerEpisodeParsed (Some(""), Some(0), Some(0), Some(DateTime.Now)) //e.airedSeason e.airedEpisodeNumber DateTime.Now
+                                |None -> return makerEpisodeParsed "" zero zero ""
+                                |Some e -> 
+                                    let info = makeParseInfo file showParsed (Some(s.seriesName)) episodeParsed e.episodeName e.airedSeason e.airedEpisodeNumber e.firstAired
+                                    return info
                            }
         return makerEpisode
         }
