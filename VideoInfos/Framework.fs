@@ -24,11 +24,11 @@ let readcredentials =
         userkey <- pwline |> extractValue
     |_ -> raise (Exception "invalid configuration")
 
+readcredentials
 
 let apiUrl = "https://api.thetvdb.com"
 
 let login = 
-    readcredentials
     let t = async {
         use client = new WebClient()
         let body = "{\"apikey\":\"" + apikey + "\", \"username\":\"" + user + "\", \"userkey\":\"" + userkey + "\"}" 
@@ -38,13 +38,10 @@ let login =
         return jsonToken.["token"] |> string } |> Async.RunSynchronously
     token <- t
 
-let rec getAuthorizedClient t =
-    match t with
-    |"" -> login
-           getAuthorizedClient token
-    |_ -> let client = new WebClient()
-          client.Encoding <- Encoding.UTF8
-          client.Headers.Set("Content-Type", "application/json")
-          client.Headers.Set("Authorization", "Bearer " + t)
-          client.Headers.Set("Accept-Language", "en")
-          client
+let getAuthorizedClient t =
+    let client = new WebClient()
+    client.Encoding <- Encoding.UTF8
+    client.Headers.Set("Content-Type", "application/json")
+    client.Headers.Set("Authorization", "Bearer " + t)
+    client.Headers.Set("Accept-Language", "en")
+    client

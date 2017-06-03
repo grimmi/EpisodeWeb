@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using VideoInfos;
 
 namespace EpisodeWeb.Controllers
 {
@@ -12,15 +14,15 @@ namespace EpisodeWeb.Controllers
         [HttpGet]
         public async Task<JObject> Get()
         {
-            var files = Directory.GetFiles(@"z:\downloads\decoded", "*.avi")
+            var fileTasks = Directory.GetFiles(@"z:\downloads\decoded", "*.avi")
                 .Select(f => new FileInfo(f))
                 .OrderBy(i => i.CreationTime)
-                .Select((f, idx) => new { Path = f.Name, Index = idx });
+                .Select(f => InfoCollector.GetEpisodeInfoTaskAsync(f));
 
-            var episode = await Renamer.getEpisodeAsTask(files.First().Path);
+            var fileInfos = await Task.WhenAll(fileTasks);
 
             var response = new JObject();
-            response.Add("files", JToken.FromObject(files));
+            response.Add("files", JToken.FromObject(infos));
 
             return response;
         }

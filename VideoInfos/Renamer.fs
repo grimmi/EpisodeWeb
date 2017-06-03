@@ -12,7 +12,7 @@ open Newtonsoft.Json
 open TvCache
 open ShowParser
 open Types
-open OtrBatchDecoder
+//open OtrBatchDecoder
 open Episodes
 open Framework
 
@@ -81,7 +81,7 @@ let findEpisode file postprocess = async {
                     postprocess file s ep
 }
 
-let getEpisode show file = async{
+let getEpisode (show:Show option) file = async{
     fillShowCache
     let parsedName = file |> parseShowName
     match show with
@@ -95,7 +95,7 @@ let getEpisode show file = async{
                 | Some ep -> return Some ep
 }
 
-let getEpisodeAsTask show file = (getEpisode show file) |> Async.StartAsTask
+//let getEpisodeAsTask file = (getEpisode file) |> Async.StartAsTask
 
 let cp newdir file show ep =
     
@@ -117,26 +117,26 @@ let cp newdir file show ep =
         printfn "moving '%s' to '%s'" file newPath
         File.Move(file, newPath)
 
-let decoderOptions = DecoderOptions()
-decoderOptions.AutoCut <- true
-decoderOptions.ContinueWithoutCutlist <- true
-decoderOptions.CreateDirectories <- true
-decoderOptions.DecoderPath <- @"Z:\Downloads\OTR\DecoderCLI\otrdecoder.exe"
-decoderOptions.Email <- File.ReadAllLines("./otrcredentials.cred").[0].Split('=').[1]
-decoderOptions.FileExtensions <- [|".otrkey"|]
-decoderOptions.ForceOverwrite <- true
-decoderOptions.InputDirectory <- @"Z:\Downloads"
-decoderOptions.OutputDirectory <- @"Z:\Downloads\fsdecoded"
-decoderOptions.Password <- File.ReadAllLines("./otrcredentials.cred").[1].Split('=').[1]
+//let decoderOptions = DecoderOptions()
+//decoderOptions.AutoCut <- true
+//decoderOptions.ContinueWithoutCutlist <- true
+//decoderOptions.CreateDirectories <- true
+//decoderOptions.DecoderPath <- @"Z:\Downloads\OTR\DecoderCLI\otrdecoder.exe"
+//decoderOptions.Email <- File.ReadAllLines("./otrcredentials.cred").[0].Split('=').[1]
+//decoderOptions.FileExtensions <- [|".otrkey"|]
+//decoderOptions.ForceOverwrite <- true
+//decoderOptions.InputDirectory <- @"Z:\Downloads"
+//decoderOptions.OutputDirectory <- @"Z:\Downloads\fsdecoded"
+//decoderOptions.Password <- File.ReadAllLines("./otrcredentials.cred").[1].Split('=').[1]
 
-let decoder = OtrBatchDecoder()
-let files = decoder.Decode decoderOptions
+//let decoder = OtrBatchDecoder()
+//let files = decoder.Decode decoderOptions
 
-let target = "z:\\downloads\\target\\fstest"
-let postCopy = cp target 
+//let target = "z:\\downloads\\target\\fstest"
+//let postCopy = cp target 
 
-login
-// let files = Directory.GetFiles(@"z:\downloads\fsdecoded", "*.avi")
+//login
+//// let files = Directory.GetFiles(@"z:\downloads\fsdecoded", "*.avi")
 
-for ep in files |> Seq.sort do
-    (findEpisode ep postCopy) |> Async.RunSynchronously
+//for ep in files |> Seq.sort do
+//    (findEpisode ep postCopy) |> Async.RunSynchronously
