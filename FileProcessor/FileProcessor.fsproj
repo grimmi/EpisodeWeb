@@ -54,8 +54,10 @@
     <Compile Include="Types.fs" />
     <Compile Include="Cache.fs" />
     <Compile Include="Parser.fs" />
+    <Compile Include="TvApi.fs" />
     <None Include="Script.fsx" />
     <Content Include="packages.config" />
+    <Compile Include="ShowFinder.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -63,6 +65,9 @@
       <Name>FSharp.Core</Name>
       <AssemblyName>FSharp.Core.dll</AssemblyName>
       <HintPath>$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\$(TargetFSharpCoreVersion)\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
