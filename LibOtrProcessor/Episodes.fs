@@ -10,6 +10,8 @@ open TvCache
 open Framework
 open ShowParser
 
+let cache = Cache()
+
 let getEpisodePage show page = async{
     printfn "lade Seite %d von '%s'" page show.seriesName
     let client = getAuthorizedClient token
@@ -26,15 +28,15 @@ let downloadEpisodes show = async {
                                     |> Seq.collect(fun page ->  let pageResult = (getEpisodePage show page) |> Async.RunSynchronously
                                                                 pageResult.data)
         let episodes = Seq.concat [firstPage.data; additionalEpisodes |> Array.ofSeq]
-        show |> cacheEpisodes episodes
+        show |> cache.cacheEpisodes episodes
         return episodes
      else
-        show |> cacheEpisodes firstPage.data
+        show |> cache.cacheEpisodes firstPage.data
         return firstPage.data |> Seq.ofArray
 }
 
 let getEpisodes show date = async {
-        match tryGetEpisodes show with
+        match cache.tryGetEpisodes show with
         |true, episodes -> 
                 let maxDate = episodes |> Seq.map(fun ep -> match DateTime.TryParse ep.firstAired with
                                                             |(true, d) -> d

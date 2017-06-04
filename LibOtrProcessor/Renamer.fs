@@ -16,6 +16,7 @@ open OtrBatchDecoder
 open Episodes
 open Framework
 
+let cache = Cache()
 
 let searchShow show = async {
             let client = getAuthorizedClient token
@@ -41,13 +42,13 @@ let rec findShow showName =
 
     let rec findShowInDb original current = async{
         try
-            match tryGetShow current with
+            match cache.tryGetShow current with
             |true, mappedShow -> 
                             return Some(mappedShow)
             |false, _ ->    let! shows = searchShow current
                             let chosenIdx = choose (shows.data |> Seq.mapi(fun idx show -> (idx, show.seriesName)))
                             let chosenShow = shows.data.[chosenIdx]
-                            cacheShow original chosenShow      
+                            cache.cacheShow original chosenShow      
                             return Some(chosenShow)
         with
             | :? WebException as ex ->  return None
@@ -66,12 +67,12 @@ let rec findShow showName =
 
 
 let findEpisode file postprocess = async {
-    fillShowCache
+    cache.fillShowCache
     let parsedName = file |> parseShowName
     let! show = findShow parsedName
     match show with
     |None -> printfn "Keine Show gefunden! ('%s')" file
-    |Some s ->  loadEpisodes s
+    |Some s ->  cache.loadEpisodes s
                 let! episode = matchEpisode s file
                 match episode with
                 | None -> printfn "Episode konnte nicht zugeordnet werden"
@@ -82,13 +83,13 @@ let findEpisode file postprocess = async {
 }
 
 let getEpisode show file = async{
-    fillShowCache
+    cache.fillShowCache
     let parsedName = file |> parseShowName
     match show with
     |None -> 
         printfn "Keine Show gefunden! ('%s')" file
         return None
-    |Some s ->  loadEpisodes s
+    |Some s ->  cache.loadEpisodes s
                 let! episode = matchEpisode s file
                 match episode with
                 | None -> return None

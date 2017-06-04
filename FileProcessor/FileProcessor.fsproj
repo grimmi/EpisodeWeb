@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>adb7b228-f4e1-4bde-a0ac-83e36e50af1c</ProjectGuid>
+    <ProjectGuid>aaaa6c81-a2cc-4276-a403-145cb11931f0</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>VideoInfos</RootNamespace>
-    <AssemblyName>VideoInfos</AssemblyName>
+    <RootNamespace>FileProcessor</RootNamespace>
+    <AssemblyName>FileProcessor</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>VideoInfos</Name>
+    <Name>FileProcessor</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,18 +51,9 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Framework.fs" />
-    <Compile Include="Types.fs" />
-    <Compile Include="TvCache.fs" />
-    <Compile Include="ShowParser.fs" />
-    <Compile Include="Episodes.fs" />
+    <Compile Include="Parser.fs" />
     <None Include="Script.fsx" />
     <Content Include="packages.config" />
-    <Compile Include="Renamer.fs" />
-    <Compile Include="InfoCollector.fs" />
-    <None Include="shows.mapping">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -70,9 +61,6 @@
       <Name>FSharp.Core</Name>
       <AssemblyName>FSharp.Core.dll</AssemblyName>
       <HintPath>$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\$(TargetFSharpCoreVersion)\FSharp.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -4,7 +4,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using VideoInfos;
 
 namespace EpisodeWeb.Controllers
 {
@@ -16,13 +15,13 @@ namespace EpisodeWeb.Controllers
         {
             var fileTasks = Directory.GetFiles(@"z:\downloads\decoded", "*.avi")
                 .Select(f => new FileInfo(f))
-                .OrderBy(i => i.CreationTime)
-                .Select(f => InfoCollector.GetEpisodeInfoTaskAsync(f));
+                .OrderBy(i => i.CreationTime);
+                //.Select(f => InfoCollector.GetEpisodeInfoTaskAsync(f.Name));
 
-            var fileInfos = await Task.WhenAll(fileTasks);
+            //var fileInfos = await Task.WhenAll(fileTasks);
 
             var response = new JObject();
-            response.Add("files", JToken.FromObject(infos));
+            response.Add("files", JToken.FromObject(null));
 
             return response;
         }
