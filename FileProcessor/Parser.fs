@@ -3,8 +3,9 @@
 open System
 open System.IO
 
-type Processor(f: string) = 
+type Processor(f: string, c: Cache) = 
     let file = f
+    let cache = c
 
     member this.ParseShowName =
         let filename = Path.GetFileName file
@@ -15,4 +16,7 @@ type Processor(f: string) =
         else
             let pointIdx = filename.IndexOf '.'
             Some(filename.Substring(0, pointIdx - 3).Replace("_", " "))
+
+    member this.FindShow =
+        
         
